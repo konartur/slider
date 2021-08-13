@@ -36,7 +36,16 @@ module.exports = (env, argv) => {
                     use: [
                         isDevMode ? "style-loader" : MiniCssExtractPlugin.loader,
                         "css-loader",
-                        "postcss-loader",
+                        {
+                            loader: "postcss-loader",
+                            options: {
+                                postcssOptions: {
+                                    plugins: [
+                                        "postcss-preset-env"
+                                    ]
+                                }
+                            }
+                        },
                         "sass-loader"
                     ],
                 },

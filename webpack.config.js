@@ -3,6 +3,7 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require("terser-webpack-plugin");
 const CompressionWebpackPlugin = require("compression-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const ESLintPlugin = require('eslint-webpack-plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 
 module.exports = (env, argv) => {
@@ -71,6 +72,7 @@ module.exports = (env, argv) => {
                     </html>
                 `
             }),
+            new ESLintPlugin(),
         ].concat(isDevMode ? [] : [new MiniCssExtractPlugin(), new CompressionWebpackPlugin()])
     };
 };

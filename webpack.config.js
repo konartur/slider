@@ -1,46 +1,67 @@
 const path = require("path");
 const HtmlWebPackPlugin = require('html-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const TerserPlugin = require("terser-webpack-plugin");
+const CompressionWebpackPlugin = require("compression-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 
-module.exports = {
-    entry: './src/index.js',
-    output: {
-        filename: '[name].js',
-        sourceMapFilename: '[file].map',
-        path: path.resolve(__dirname, 'dist'),
-    },
-    devtool: 'source-map',
-    module: {
-        rules: [
-            {
-                test: /\.m?js$/,
-                exclude: /(node_modules|bower_components)/,
-                use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: ['@babel/preset-env']
+module.exports = (env, argv) => {
+    const isDevMode = argv.mode !== 'production';
+
+    return {
+        entry: './src/index.js',
+        output: {
+            filename: '[name].js',
+            sourceMapFilename: '[file].map',
+            path: path.resolve(__dirname, 'dist'),
+        },
+        devServer: {
+            contentBase: "./dist",
+        },
+        devtool: isDevMode ? 'eval' : false,
+        module: {
+            rules: [
+                {
+                    test: /\.m?js$/,
+                    exclude: /(node_modules|bower_components)/,
+                    use: {
+                        loader: 'babel-loader',
+                        options: {
+                            presets: ['@babel/preset-env']
+                        }
                     }
-                }
+                },
+                {
+                    test: /\.s[ac]ss$/i,
+                    use: [
+                        isDevMode ? "style-loader" : MiniCssExtractPlugin.loader,
+                        "css-loader",
+                        "postcss-loader",
+                        "sass-loader"
+                    ],
+                },
+            ],
+        },
+        resolve: {
+            extensions: ['.js']
+        },
+        optimization: {
+            minimize: !isDevMode,
+            minimizer: isDevMode ? [] : [new TerserPlugin()],
+            splitChunks: {
+                chunks: 'all',
             }
-        ],
-    },
-    resolve: {
-        extensions: ['.js']
-    },
-    optimization: {
-        splitChunks: {
-            chunks: 'all',
-        }
-    },
-    plugins: [
-        new CleanWebpackPlugin(),
-        new HtmlWebPackPlugin({
-            templateContent: `
-            <html lang="en">
-              <body>
-              </body>
-            </html>
-            `
-        }),
-    ]
+        },
+        plugins: [
+            new CleanWebpackPlugin(),
+            new HtmlWebPackPlugin({
+                templateContent: `
+                    <html lang="en">
+                      <body>
+                      </body>
+                    </html>
+                `
+            }),
+        ].concat(isDevMode ? [] : [new MiniCssExtractPlugin(), new CompressionWebpackPlugin()])
+    };
 };

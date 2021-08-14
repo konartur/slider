@@ -40,7 +40,6 @@ module.exports = (env, argv) => {
                             loader: 'css-loader',
                             options: {
                                 sourceMap: isDevMode,
-                                modules: true
                             }
                         },
                         {

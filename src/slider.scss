@@ -33,15 +33,25 @@ $navigationSize: 44px;
     transition-property: transform;
   }
 
+  &-pagination {
+    position: absolute;
+    left: 0;
+    bottom: 10px;
+    z-index: 10;
+    text-align: center;
+    width: 100%;
+  }
+
   &-pagination-bullet {
     $size: 8px;
 
     width: $size;
     height: $size;
-    display: inline-block;
+    display: inline-flex;
     border-radius: 50%;
     background: #000;
     opacity: .2;
+    margin: 0 4px;
 
     &-active {
       opacity: 1;

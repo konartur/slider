@@ -45,6 +45,28 @@ export default class Slider {
         }
       }
     }
+
+    if ('pagination' in options) {
+      if ('el' in options.pagination) {
+        const pagination = this.container.querySelector(options.pagination.el);
+        if (pagination) {
+
+          this.bullets = Array.from(this.sliders).map((_, index) => {
+            const bullet = document.createElement('span');
+            bullet.classList.add('slider-pagination-bullet');
+
+            if (this.activeIndex === index) {
+              bullet.classList.add('slider-pagination-bullet-active')
+            }
+
+            pagination.appendChild(bullet);
+
+            return bullet;
+          });
+
+        }
+      }
+    }
   }
 
   slideNext() {

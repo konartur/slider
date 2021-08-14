@@ -33,6 +33,22 @@ $navigationSize: 44px;
     transition-property: transform;
   }
 
+  &-pagination-bullet {
+    $size: 8px;
+
+    width: $size;
+    height: $size;
+    display: inline-block;
+    border-radius: 50%;
+    background: #000;
+    opacity: .2;
+
+    &-active {
+      opacity: 1;
+      background: blue;
+    }
+  }
+
   &-button-next,
   &-button-prev {
     position: absolute;

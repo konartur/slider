@@ -36,7 +36,13 @@ module.exports = (env, argv) => {
                     test: /\.s[ac]ss$/i,
                     use: [
                         isDevMode ? "style-loader" : MiniCssExtractPlugin.loader,
-                        "css-loader",
+                        {
+                            loader: 'css-loader',
+                            options: {
+                                sourceMap: isDevMode,
+                                modules: true
+                            }
+                        },
                         {
                             loader: "postcss-loader",
                             options: {
@@ -47,7 +53,12 @@ module.exports = (env, argv) => {
                                 }
                             }
                         },
-                        "sass-loader"
+                        {
+                            loader: "sass-loader",
+                            options: {
+                                sourceMap: isDevMode
+                            }
+                        }
                     ],
                 },
             ],
@@ -65,12 +76,7 @@ module.exports = (env, argv) => {
         plugins: [
             new CleanWebpackPlugin(),
             new HtmlWebPackPlugin({
-                templateContent: `
-                    <html lang="en">
-                      <body>
-                      </body>
-                    </html>
-                `
+                template: 'src/index.html'
             }),
             new ESLintPlugin(),
         ].concat(isDevMode ? [] : [new MiniCssExtractPlugin(), new CompressionWebpackPlugin()])

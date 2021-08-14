@@ -5,6 +5,14 @@ export default class Slider {
     return this.wrapper.clientWidth;
   }
 
+  get allowSlideNext() {
+    return this.activeIndex < this.sliders.length - 1;
+  }
+
+  get allowSlidePrev() {
+    return this.activeIndex > 0;
+  }
+
   constructor(selector, options = {}) {
     this.activeIndex = 0;
     this.container = document.querySelector(selector);
@@ -40,12 +48,20 @@ export default class Slider {
   }
 
   slideNext() {
+    if (!this.allowSlideNext) {
+      return;
+    }
+
     const nextIndex = this.activeIndex + 1;
     this.wrapper.style.transform = `translate3d(-${this.wrapperWidth * nextIndex}px, 0px, 0px)`;
     this.activeIndex = nextIndex;
   }
 
   slidePrev() {
+    if (!this.allowSlidePrev) {
+      return;
+    }
+
     const prevIndex = this.activeIndex - 1;
     this.wrapper.style.transform = `translate3d(-${this.wrapperWidth * prevIndex}px, 0px, 0px)`;
     this.activeIndex = prevIndex;

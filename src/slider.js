@@ -1,4 +1,5 @@
 import './slider.scss';
+import Pagination from "./pagination";
 
 export default class Slider {
   get wrapperWidth() {
@@ -14,16 +15,19 @@ export default class Slider {
   }
 
   constructor(selector, options = {}) {
-    this.activeIndex = 0;
     this.container = document.querySelector(selector);
 
     if (!this.container) {
-      throw new Error(`Not found node by selector: ${selector}`);
+      throw new Error(`Cannot find pagination element by selector: ${selector}`);
     }
+
+    this.pagination = new Pagination();
+    this.activeIndex = 0;
 
     this.wrapper = this.container.querySelector('.slider-wrapper');
 
     this.sliders = this.wrapper.querySelectorAll('.slider-slide');
+
 
     // eslint-disable-next-line no-restricted-syntax
     for (const slider of this.sliders) {
@@ -48,23 +52,7 @@ export default class Slider {
 
     if ('pagination' in options) {
       if ('el' in options.pagination) {
-        const pagination = this.container.querySelector(options.pagination.el);
-        if (pagination) {
-
-          this.bullets = Array.from(this.sliders).map((_, index) => {
-            const bullet = document.createElement('span');
-            bullet.classList.add('slider-pagination-bullet');
-
-            if (this.activeIndex === index) {
-              bullet.classList.add('slider-pagination-bullet-active')
-            }
-
-            pagination.appendChild(bullet);
-
-            return bullet;
-          });
-
-        }
+        this.pagination.render(this.container, options.pagination.el, this.sliders.length);
       }
     }
   }

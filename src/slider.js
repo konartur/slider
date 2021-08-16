@@ -4,12 +4,8 @@ import Wrapper from "./components/wrapper/wrapper";
 import State from "./state";
 
 export default class Slider {
-  get wrapperWidth() {
-    return this.wrapper.clientWidth;
-  }
-
   get allowSlideNext() {
-    return this.state.activeIndex < this.sliders.length - 1;
+    return this.state.activeIndex < this.wrapper.slides.length - 1;
   }
 
   get allowSlidePrev() {
@@ -31,14 +27,6 @@ export default class Slider {
       this.pagination.activate(activeIndex);
     });
 
-    this.sliders = this.wrapper.element.querySelectorAll('.slider-slide');
-
-
-    // eslint-disable-next-line no-restricted-syntax
-    for (const slider of this.sliders) {
-      slider.style.width = `${this.wrapperWidth}px`;
-    }
-
     if ('navigation' in options) {
       if ('nextEl' in options.navigation) {
         const nextEl = this.container.querySelector(options.navigation.nextEl);
@@ -57,7 +45,7 @@ export default class Slider {
 
     if ('pagination' in options) {
       if ('el' in options.pagination) {
-        this.pagination.render(this.container, options.pagination.el, this.sliders.length);
+        this.pagination.render(this.container, options.pagination.el, this.wrapper.slides.length);
       }
     }
   }

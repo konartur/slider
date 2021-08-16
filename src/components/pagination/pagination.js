@@ -1,4 +1,5 @@
-import Bullet from "./bullet";
+import Bullet from "../bullet/bullet";
+import "./pagination.scss";
 
 export default class Pagination {
   constructor() {

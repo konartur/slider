@@ -1,5 +1,5 @@
 import './slider.scss';
-import Pagination from "./pagination";
+import Pagination from "./components/pagination/pagination";
 
 export default class Slider {
   get wrapperWidth() {

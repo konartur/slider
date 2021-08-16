@@ -1,0 +1,17 @@
+.slider-pagination-bullet {
+  $size: 8px;
+
+  width: $size;
+  height: $size;
+  display: inline-flex;
+  border-radius: 50%;
+  background: #000;
+  margin: 0 4px;
+  opacity: .2;
+  transition: .3s opacity;
+
+  &-active {
+    opacity: 1;
+    background: blue;
+  }
+}

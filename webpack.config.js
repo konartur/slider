@@ -39,7 +39,13 @@ module.exports = (env, argv) => {
                         {
                             loader: 'css-loader',
                             options: {
+                                importLoaders: 2,
                                 sourceMap: isDevMode,
+                                modules: {
+                                  auto: /\.module\.s[ac]ss$/i,
+                                  exportLocalsConvention: 'camelCaseOnly'
+                                }
+
                             }
                         },
                         {

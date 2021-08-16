@@ -11,6 +11,16 @@ export default class State {
     }
   }
 
+  setActiveNext() {
+    const nextIndex = this.activeIndex + 1;
+    this.setActive(nextIndex);
+  }
+
+  setActivePrevious() {
+    const previousIndex = this.activeIndex - 1;
+    this.setActive(previousIndex);
+  }
+
   subscribe(callback) {
     this.callback = callback;
   }

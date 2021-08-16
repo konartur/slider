@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   new Slider('.slider-container', {
     pagination: {
       el: '.slider-pagination',
+      clickable: true
     },
     navigation: {
       nextEl: '.slider-button-next',

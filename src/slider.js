@@ -8,7 +8,7 @@ export default class Slider {
     return this.state.activeIndex < this.wrapper.slides.length - 1;
   }
 
-  get allowSlidePrev() {
+  get allowSlidePrevious() {
     return this.state.activeIndex > 0;
   }
 
@@ -19,9 +19,9 @@ export default class Slider {
       throw new Error(`Cannot find pagination element by selector: ${selector}`);
     }
 
-    this.pagination = new Pagination();
-    this.wrapper = new Wrapper(this.container);
     this.state = new State();
+    this.pagination = new Pagination(this.state);
+    this.wrapper = new Wrapper(this.container);
     this.state.subscribe(activeIndex => {
       this.wrapper.transform(activeIndex);
       this.pagination.activate(activeIndex);
@@ -38,15 +38,13 @@ export default class Slider {
       if ('prevEl' in options.navigation) {
         const prevEl = this.container.querySelector(options.navigation.prevEl);
         if (prevEl) {
-          prevEl.addEventListener('click', this.slidePrev.bind(this));
+          prevEl.addEventListener('click', this.slidePrevious.bind(this));
         }
       }
     }
 
     if ('pagination' in options) {
-      if ('el' in options.pagination) {
-        this.pagination.render(this.container, options.pagination.el, this.wrapper.slides.length);
-      }
+      this.pagination.render(this.container, this.wrapper.slides.length, options.pagination);
     }
   }
 
@@ -55,16 +53,14 @@ export default class Slider {
       return;
     }
 
-    const nextIndex = this.state.activeIndex + 1;
-    this.state.setActive(nextIndex);
+    this.state.setActiveNext();
   }
 
-  slidePrev() {
-    if (!this.allowSlidePrev) {
+  slidePrevious() {
+    if (!this.allowSlidePrevious) {
       return;
     }
 
-    const prevIndex = this.state.activeIndex - 1;
-    this.state.setActive(prevIndex);
+    this.state.setActivePrevious();
   }
 }

@@ -1,7 +1,7 @@
 module.exports = {
     parser: "@babel/eslint-parser",
+
     parserOptions: {
-      requireConfigFile: false,
       ecmaVersion: 12,
       sourceType: 'module',
     },
@@ -11,7 +11,9 @@ module.exports = {
     },
     extends: [
         'airbnb-base',
-        'prettier'
+        'prettier',
+        'plugin:jest/recommended'
     ],
+    plugins: ["jest"],
     rules: {},
 };

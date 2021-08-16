@@ -14,7 +14,8 @@
     "prettier:js": "prettier --write src/**/*.js",
     "prettier:scss": "prettier --write src/**/*.scss",
     "prettier": "concurrently \"npm run prettier:js\" \"npm run prettier:scss\"",
-    "test": "jest --collectCoverage"
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "repository": {
     "type": "git",

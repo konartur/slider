@@ -1,5 +1,6 @@
 import './slider.scss';
 import Pagination from "./components/pagination/pagination";
+import Wrapper from "./components/wrapper/wrapper";
 import State from "./state";
 
 export default class Slider {
@@ -23,14 +24,14 @@ export default class Slider {
     }
 
     this.pagination = new Pagination();
+    this.wrapper = new Wrapper(this.container);
     this.state = new State();
     this.state.subscribe(activeIndex => {
+      this.wrapper.transform(activeIndex);
       this.pagination.activate(activeIndex);
     });
 
-    this.wrapper = this.container.querySelector('.slider-wrapper');
-
-    this.sliders = this.wrapper.querySelectorAll('.slider-slide');
+    this.sliders = this.wrapper.element.querySelectorAll('.slider-slide');
 
 
     // eslint-disable-next-line no-restricted-syntax
@@ -67,7 +68,6 @@ export default class Slider {
     }
 
     const nextIndex = this.state.activeIndex + 1;
-    this.wrapper.style.transform = `translate3d(-${this.wrapperWidth * nextIndex}px, 0px, 0px)`;
     this.state.setActive(nextIndex);
   }
 
@@ -77,7 +77,6 @@ export default class Slider {
     }
 
     const prevIndex = this.state.activeIndex - 1;
-    this.wrapper.style.transform = `translate3d(-${this.wrapperWidth * prevIndex}px, 0px, 0px)`;
     this.state.setActive(prevIndex);
   }
 }

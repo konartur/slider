@@ -65,6 +65,7 @@ export default class Slider {
     const nextIndex = this.activeIndex + 1;
     this.wrapper.style.transform = `translate3d(-${this.wrapperWidth * nextIndex}px, 0px, 0px)`;
     this.activeIndex = nextIndex;
+    this.pagination.activate(nextIndex);
   }
 
   slidePrev() {
@@ -75,5 +76,6 @@ export default class Slider {
     const prevIndex = this.activeIndex - 1;
     this.wrapper.style.transform = `translate3d(-${this.wrapperWidth * prevIndex}px, 0px, 0px)`;
     this.activeIndex = prevIndex;
+    this.pagination.activate(prevIndex);
   }
 }

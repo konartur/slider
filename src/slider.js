@@ -1,5 +1,6 @@
 import './slider.scss';
 import Pagination from "./components/pagination/pagination";
+import State from "./state";
 
 export default class Slider {
   get wrapperWidth() {
@@ -7,11 +8,11 @@ export default class Slider {
   }
 
   get allowSlideNext() {
-    return this.activeIndex < this.sliders.length - 1;
+    return this.state.activeIndex < this.sliders.length - 1;
   }
 
   get allowSlidePrev() {
-    return this.activeIndex > 0;
+    return this.state.activeIndex > 0;
   }
 
   constructor(selector, options = {}) {
@@ -22,7 +23,10 @@ export default class Slider {
     }
 
     this.pagination = new Pagination();
-    this.activeIndex = 0;
+    this.state = new State();
+    this.state.subscribe(activeIndex => {
+      this.pagination.activate(activeIndex);
+    });
 
     this.wrapper = this.container.querySelector('.slider-wrapper');
 
@@ -62,10 +66,9 @@ export default class Slider {
       return;
     }
 
-    const nextIndex = this.activeIndex + 1;
+    const nextIndex = this.state.activeIndex + 1;
     this.wrapper.style.transform = `translate3d(-${this.wrapperWidth * nextIndex}px, 0px, 0px)`;
-    this.activeIndex = nextIndex;
-    this.pagination.activate(nextIndex);
+    this.state.setActive(nextIndex);
   }
 
   slidePrev() {
@@ -73,9 +76,8 @@ export default class Slider {
       return;
     }
 
-    const prevIndex = this.activeIndex - 1;
+    const prevIndex = this.state.activeIndex - 1;
     this.wrapper.style.transform = `translate3d(-${this.wrapperWidth * prevIndex}px, 0px, 0px)`;
-    this.activeIndex = prevIndex;
-    this.pagination.activate(prevIndex);
+    this.state.setActive(prevIndex);
   }
 }
